@@ -1,0 +1,72 @@
+name: Release plugin
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+env:
+  PLUGIN_NAME: cloudflare-ai
+  NODE_VERSION: 22
+  PNPM_VERSION: 9.15.0
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Get version
+        id: get_version
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=main" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install dependencies and build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+
+      - name: Prepare release assets
+        id: prepare_assets
+        run: |
+          mkdir ${{ env.PLUGIN_NAME }}
+          cp build/{main.js,styles.css} ${{ env.PLUGIN_NAME }}/
+          cp manifest.json ${{ env.PLUGIN_NAME }}/
+          zip -r ${{ env.PLUGIN_NAME }}-${{ steps.get_version.outputs.VERSION }}.zip ${{ env.PLUGIN_NAME }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ env.PLUGIN_NAME }}-${{ steps.get_version.outputs.VERSION }}.zip
+            build/main.js
+            manifest.json
+            build/styles.css
+            versions.json
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

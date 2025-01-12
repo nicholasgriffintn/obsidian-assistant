@@ -1,0 +1,21 @@
+{
+  "assistantApiUrl": "http://localhost:8787",
+  "assistantApiKey": "djEw6+s29p7wT3kHoehAgWs5CywmAthV0dD5xHFrYIMEign6l6yNFYh+if2r+xkqxV1JOEkOFUM4sGK6qNIu6H89/y7BZQuiz9vO8JMPegHUE28=",
+  "assistantApiKeySaved": true,
+  "modelId": "llama-3.3-70b-specdec",
+  "maxTokens": 2048,
+  "temperature": 0.6,
+  "topK": 3,
+  "minSimilarityScore": 0.7,
+  "ignoredFolders": [
+    "ai",
+    "ignored"
+  ],
+  "syncEnabled": false,
+  "autoSyncInterval": 30,
+  "customTemplatesFolder": "ai,templates",
+  "logLevel": "debug",
+  "textEmbeddingsModelId": "bge-large-en-v1.5",
+  "vectorizeIndexName": "obsidian-notes",
+  "lastSyncTime": 1736719524776
+}

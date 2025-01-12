@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-assistant",
+	"name": "Obsidian Assistant",
+	"version": "0.0.17",
+	"minAppVersion": "0.15.0",
+	"description": "A plugin for Obsidian that links my notes to my assistant API.",
+	"author": "Nicholas Griffin",
+	"authorUrl": "https://nicholasgriffin.dev",
+	"isDesktopOnly": false
+}
