@@ -93,6 +93,8 @@ export class TextGenerationService {
 			} else {
 				text = await this.generateText({
 					prompt: selection,
+					maxTokens: this.settings.maxTokens,
+					temperature: this.settings.temperature,
 				});
 			}
 
@@ -141,6 +143,8 @@ export class TextGenerationService {
 					content: options.prompt,
 				},
 			],
+			maxTokens: options.maxTokens,
+			temperature: options.temperature,
 		});
 
 		return text;
